@@ -1,0 +1,27 @@
+{{template "head" .Question}}
+<div class="card">
+  <h1>{{.Question}}</h1>
+  <div class="muted">
+    {{if .Open}}Voting open: blocks {{.OpensAt}}–{{.ClosesAt}}{{else}}Voting closed at block {{.ClosesAt}}{{end}}
+    · {{.Counted}} of {{.Ballots}} ballots counted
+    {{if .Updated.IsZero}}· waiting for first wallet sync{{else}}· updated {{ago .Updated}} ago (block {{.Height}}){{end}}
+  </div>
+  {{range .Results}}
+  <div style="margin-top:16px">
+    <div><b>{{.Label}}</b> — {{.Votes}} {{if .Pending}}<span class="pending">(+{{.Pending}} pending)</span>{{end}}</div>
+    <div class="bar"><div style="width:{{pct .Votes $.Counted}}%"></div></div>
+  </div>
+  {{end}}
+  {{if .Ignored}}<p class="muted">{{.Ignored}} units ignored (sent outside the voting window or not a {{.Ticker}} ballot).</p>{{end}}
+</div>
+
+<div class="card">
+  <h2>How to vote</h2>
+  <p class="muted">You received one <b>{{.Ticker}}</b> ballot token. Send exactly <b>1 {{.Ticker}}</b> to the address of your answer. Ring signatures hide which ballot went where — nobody, including the organiser, can link your vote to you.</p>
+  {{range .Results}}
+  <p class="muted">{{.Label}}</p><div class="mono">{{.Address}}</div>
+  {{end}}
+  <p class="muted">Ballot token id</p><div class="mono">{{.TokenID}}</div>
+</div>
+{{template "audit" .Audit}}
+{{template "foot"}}

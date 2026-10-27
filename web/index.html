@@ -1,0 +1,11 @@
+{{template "head" "Polls"}}
+{{range .Polls}}
+<div class="card">
+  <h2><a href="/p/{{.ID}}">{{.Question}}</a></h2>
+  <div class="muted">{{.Counted}} votes · {{if .Open}}open until block {{.ClosesAt}}{{else}}closed{{end}}</div>
+</div>
+{{else}}
+<div class="card muted">No polls yet. Create one with <code>bdxpolls new</code>.</div>
+{{end}}
+{{template "audit" .Audit}}
+{{template "foot"}}

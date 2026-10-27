@@ -1,0 +1,42 @@
+{{define "head"}}<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{.}} · bdxpolls</title>
+<style>
+  :root { --bg:#fafaf9; --fg:#1c1917; --muted:#78716c; --card:#fff; --line:#e7e5e4; --accent:#0d9488; --warn:#b45309; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#0c0a09; --fg:#f5f5f4; --muted:#a8a29e; --card:#1c1917; --line:#292524; --accent:#2dd4bf; --warn:#fbbf24; } }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.5 system-ui, sans-serif; }
+  main { max-width:720px; margin:0 auto; padding:24px 16px 64px; }
+  a { color:var(--accent); }
+  header { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:24px; }
+  header a { color:var(--fg); text-decoration:none; font-weight:700; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:20px; margin-bottom:16px; }
+  .muted { color:var(--muted); font-size:14px; }
+  .bar { height:10px; background:var(--line); border-radius:99px; overflow:hidden; margin:12px 0 6px; }
+  .bar > div { height:100%; background:var(--accent); }
+  .mono { font-family:ui-monospace, monospace; font-size:13px; word-break:break-all; background:var(--bg); border:1px solid var(--line); border-radius:8px; padding:10px; }
+  table { width:100%; border-collapse:collapse; font-size:14px; }
+  td, th { text-align:left; padding:8px 4px; border-bottom:1px solid var(--line); }
+  .tag { font-size:12px; padding:2px 8px; border-radius:99px; border:1px solid currentColor; }
+  .flash { color:var(--accent); } .pending { color:var(--warn); } .confirmed { color:var(--muted); }
+  h1 { margin:0 0 8px; font-size:28px; } h2 { font-size:18px; margin:0 0 8px; }
+</style>
+</head>
+<body><main>
+<header><a href="/">bdxpolls</a><span class="muted">private, verifiable polls on Beldex</span></header>
+{{end}}
+
+{{define "audit"}}
+<div class="card">
+  <h2>Verify it yourself</h2>
+  <p class="muted">This server only holds a <b>view key</b>: it can see ballots arrive but cannot move them. Who voted for what stays private. Anyone can recount every poll on this site by restoring a view-only wallet:</p>
+  <p class="muted">Address</p><div class="mono">{{.PrimaryAddress}}</div>
+  <p class="muted">View key</p><div class="mono">{{.ViewKey}}</div>
+  <p class="muted"><code>beldex-wallet-cli {{if ne .Network "mainnet"}}--{{.Network}} {{end}}--generate-from-view-key audit</code></p>
+</div>
+{{end}}
+
+{{define "foot"}}</main></body></html>{{end}}
